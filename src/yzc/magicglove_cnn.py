@@ -1,3 +1,4 @@
 from data_process import load_data
 
-load_data('20161111/data.txt', 1, -1)
+path = '../../data/'
+load_data(path + '20161111/data.txt', start = 1)
