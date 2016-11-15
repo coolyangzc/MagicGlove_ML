@@ -32,3 +32,4 @@ print oup[0]
 print result - oup[0]
 dist = numpy.sqrt(numpy.sum(numpy.square(result - oup[0])))
 print dist
+model.save('model.h5')
