@@ -8,7 +8,7 @@ from keras.layers.convolutional import Convolution2D, MaxPooling2D
 from keras.layers.normalization import BatchNormalization
 
 batch_size = 128
-nb_epoch = 100
+nb_epoch = 200
 
 img_rows, img_cols = 37, 65
 img_channels = 2
@@ -32,7 +32,7 @@ Y_test /= scale
 model = Sequential()
 
 model.add(Convolution2D(8, 5, 5, border_mode = 'valid', input_shape = X_train.shape[1:]))
-model.add(Activation('sigmoid'))
+model.add(Activation('tanh'))
 model.add(MaxPooling2D(pool_size = (2, 2)))
 
 model.add(Convolution2D(16, 3, 3, border_mode = 'valid'))
