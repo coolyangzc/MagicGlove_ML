@@ -6,8 +6,8 @@ from keras.optimizers import SGD, Adadelta, Adagrad
 from keras.utils import np_utils, generic_utils
 from loader import load
 from six.moves import range
-from keras import backend as K
 import numpy
+from keras import backend as K
 K.set_image_dim_ordering('th')
 
 inp, oup = load('../../data/20161111/data.txt', 100, 2700)
@@ -32,3 +32,4 @@ print oup[0]
 print result - oup[0]
 dist = numpy.sqrt(numpy.sum(numpy.square(result - oup[0])))
 print dist
+model.save('model.h5')
