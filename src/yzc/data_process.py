@@ -13,7 +13,8 @@ def load_data(filename, start = 0, end = -1,
     for line in data[start:end]:
         line_data = map(float, line.split(' '))
         a = np.array(line_data[1:2*37*65+1])
-        X.append(a.reshape((2, 37, 65), order='F'))
+        a = a.reshape(2, 37*65, order = 'F')
+        X.append(a.reshape(2, 37, 65))
         Y.append(line_data[2*37*65+1:])
     X = np.array(X)
     Y = np.array(Y)
