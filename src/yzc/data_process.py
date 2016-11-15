@@ -30,12 +30,12 @@ def load_data(filename, start = 0, end = -1,
         r = np.random.permutation(len(Y))
         X = X[r]
         Y = Y[r]
-    sp = (1 - validation_split) * len(Y)
+    sp = int((1 - validation_split) * len(Y))
     X_train, X_test = X[:sp], X[sp:]
     Y_train, Y_test = Y[:sp], Y[sp:]
     
     #Output
-    print ("successful loaded %d[%d:%d] datas from %s"%(len(Y_train), start, len(data) + end if end < 0 else end, filename))
+    print ("successful loaded %d[%d:%d] datas from %s"%(len(Y), start, len(data) + end if end < 0 else end, filename))
     print ('shuffle = %r'%(shuffle))
     print ('coordinate = %s'%(coordinate))
     print ('validation_split = %f'%(validation_split))
