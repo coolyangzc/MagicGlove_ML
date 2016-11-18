@@ -1,7 +1,7 @@
 import numpy as np
 
-def load_data(filename, start = 0, end = -1, 
-              shuffle = True, select = 100, coordinate = 'relative', validation_split = 0.1):   
+def load_data(filename, start = 0, end = -1, mission = 'magicglove',
+              shuffle = True, select = 128, coordinate = 'relative', validation_split = 0.1):   
 
     #Loading
     fd = file(filename)
@@ -16,6 +16,7 @@ def load_data(filename, start = 0, end = -1,
         a = a.reshape(2, 37*65, order = 'F')
         a = a.reshape(2, 37, 65)
         cnt = 0
+        flag = False
         for i in range(37):
             for j in range(65):
                 if (a[0,i,j] != 0):
@@ -30,13 +31,14 @@ def load_data(filename, start = 0, end = -1,
     Y = np.array(Y)
     
     #Processing
-    if (coordinate == 'relative'):
-        for label in Y:
-            for i in range(3, len(label)):
-                label[i] -= label[i%3]
-        Y = np.delete(Y, np.s_[:3:], axis = 1)
-    else:
-        coordinate = 'absolute'
+    if (mission == 'magicglove'):
+        if (coordinate == 'relative'):
+            for label in Y:
+                for i in range(3, len(label)):
+                    label[i] -= label[i%3]
+            Y = np.delete(Y, np.s_[:3:], axis = 1)
+        else:
+            coordinate = 'absolute'
     if (shuffle):
         for i in range(len(Y)):
             j = np.random.randint(len(Y))
