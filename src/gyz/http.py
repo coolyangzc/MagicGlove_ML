@@ -10,20 +10,12 @@ from keras.optimizers import SGD, Adadelta, Adagrad
 from keras.utils import np_utils, generic_utils
 from six.moves import range
 from loader import load
-from keras import backend as K
 import numpy as np
 import numpy
+from keras import backend as K
 K.set_image_dim_ordering('th')
 
-model = load_model("model.h5")
-
-'''inp, oup = load('../../data/20161111/data.txt', 100, 2700)
-result = model.predict(inp[0 : 1], batch_size = 1)[0]
-print result * 500
-print oup[0] * 500
-print result - oup[0]
-dist = numpy.sqrt(numpy.sum(numpy.square(result - oup[0])))
-print dist'''
+model = load_model("model1.h5")
 
 httpClient = None
 try:
@@ -38,14 +30,18 @@ try:
 				for c in range(65):
 					X_test[0, channel, r, c] = int(inp[r * 2 * 65 + c * 2 + channel])
 
-		Y_test = model.predict(X_test, batch_size = 1) * 500
+		(X_mean, X_scale) = (83.647755, 143.887664)
+		(Y_mean, Y_scale) = (-6.418524, 93.565776)
+		X_test = (X_test - X_mean) / X_scale
+		Y_test = model.predict(X_test, batch_size = 1)
+		Y_test = Y_test * Y_scale + Y_mean
+
 		oup = "";
 		for i in range(60):
 			oup += str(Y_test[0][i]) + "?";
 		httpClient = httplib.HTTPConnection('127.0.0.1', 8000, timeout = 30)
 		httpClient.request('GET', '/' + oup);
 		response = httpClient.getresponse()
-		time.sleep(0.01);
 except Exception, e:
 	print e
 finally:
