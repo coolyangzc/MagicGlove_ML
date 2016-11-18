@@ -1,7 +1,7 @@
 import numpy as np
 
 def load_data(filename, start = 0, end = -1, 
-              shuffle = True, coordinate = 'relative', validation_split = 0.1):   
+              shuffle = True, select = 100, coordinate = 'relative', validation_split = 0.1):   
 
     #Loading
     fd = file(filename)
@@ -14,8 +14,18 @@ def load_data(filename, start = 0, end = -1,
         line_data = map(float, line.split(' '))
         a = np.array(line_data[1:2*37*65+1])
         a = a.reshape(2, 37*65, order = 'F')
-        X.append(a.reshape(2, 37, 65))
-        Y.append(line_data[2*37*65+1:])
+        a = a.reshape(2, 37, 65)
+        cnt = 0
+        for i in range(37):
+            for j in range(65):
+                if (a[0,i,j] != 0):
+                    cnt += 1
+                    if (cnt >= select):
+                        flag = True
+                        break
+        if (flag):    
+            X.append(a)
+            Y.append(line_data[2*37*65+1:])
     X = np.array(X)
     Y = np.array(Y)
     
@@ -28,9 +38,16 @@ def load_data(filename, start = 0, end = -1,
     else:
         coordinate = 'absolute'
     if (shuffle):
+        for i in range(len(Y)):
+            j = np.random.randint(len(Y))
+            X[i], X[j] = X[j], X[i]
+            Y[i], Y[j] = Y[j], Y[i]
+        '''
         r = np.random.permutation(len(Y))
         X = X[r]
         Y = Y[r]
+        '''
+        
     sp = int((1 - validation_split) * len(Y))
     X_train, X_test = X[:sp], X[sp:]
     Y_train, Y_test = Y[:sp], Y[sp:]
