@@ -2,22 +2,23 @@ from data_process import load_data
 
 import numpy as np
 
+from keras import backend as K
 from keras.models import Sequential
 from keras.layers.core import Dense, Dropout, Activation, Flatten, SpatialDropout2D
 from keras.layers.convolutional import Convolution2D, MaxPooling2D
 from keras.layers.normalization import BatchNormalization
 
 batch_size = 128
-nb_epoch = 128
+nb_epoch = 30
 X_scaling = True
 Y_scaling = True
 
 img_rows, img_cols = 37, 65
 img_channels = 2
-
+ 
 path = '../../data/'
-(X_train, Y_train), (X_test, Y_test) = load_data(path + '20161117/data-all.txt', 
-validation_split = 0.2, start = 1, end = -2, shuffle = True)
+(X_train, Y_train), (X_test, Y_test) = load_data(path + '20161117/data-yzc.txt', 
+validation_split = 0.2, start = 1, end = 1024, shuffle = True)
 
 if (X_scaling):
     X_mean = np.mean(X_train)
@@ -48,6 +49,7 @@ print ('(Y_mean, Y_scale) = (%f, %f)'%(Y_mean, Y_scale))
 
 model = Sequential()
 
+
 model.add(Convolution2D(4, 5, 5, border_mode = 'valid', input_shape = X_train.shape[1:]))
 model.add(Activation('tanh'))
 model.add(MaxPooling2D(pool_size = (2, 2)))
@@ -62,6 +64,14 @@ model.add(Activation('relu'))
 model.add(Dense(60))
 model.add(Activation('tanh'))
 
+'''
+model.add(Convolution2D(4, 5, 5, border_mode = 'valid', input_shape = X_train.shape[1:]))
+model.add(Activation('tanh'))
+model.add(MaxPooling2D(pool_size = (2, 2)))
+model.add(Flatten())
+model.add(Dense(60))
+model.add(Activation('tanh'))
+'''
 model.compile(loss = 'mse', optimizer = 'RMSprop')
 
 model.fit(X_train, Y_train, 
