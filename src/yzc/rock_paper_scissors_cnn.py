@@ -9,7 +9,7 @@ from keras.layers.convolutional import Convolution2D, MaxPooling2D
 from keras.layers.normalization import BatchNormalization
 
 batch_size = 128
-nb_epoch = 30
+nb_epoch = 128
 X_scaling = True
 
 img_rows, img_cols = 37, 65
@@ -42,12 +42,12 @@ model.add(Activation('relu'))
 model.add(MaxPooling2D(pool_size = (2, 2)))
 
 model.add(Flatten())
-model.add(Dense(1024))
+model.add(Dense(128))
 model.add(Activation('relu'))
 model.add(Dense(3))
 model.add(Activation('softmax'))
 
-model.compile(loss = 'categorical_crossentropy', optimizer = 'rmsprop', metrics=['accuracy'])
+model.compile(loss = 'categorical_crossentropy', optimizer = 'Adam', metrics=['accuracy'])
 
 model.fit(X_train, Y_train, 
           batch_size = batch_size, 
