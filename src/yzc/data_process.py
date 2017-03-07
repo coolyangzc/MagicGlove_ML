@@ -42,8 +42,8 @@ def load_data(filename, start = 0, end = -1, mission = 'magicglove',
     if (shuffle):
         for i in range(len(Y)):
             j = np.random.randint(len(Y))
-            X[i], X[j] = X[j], X[i]
-            Y[i], Y[j] = Y[j], Y[i]
+            X[i], X[j] = X[j], X[i].copy()
+            Y[i], Y[j] = Y[j], Y[i].copy()
         '''
         r = np.random.permutation(len(Y))
         X = X[r]
