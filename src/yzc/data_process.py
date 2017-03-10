@@ -11,7 +11,7 @@ def load_data(filename, start = 0, end = -1, mission = 'magicglove',
     if (end == 0):
         end = len(data)
     for line in data[start:end]:
-        if (len(line.split(' ')) < 2*37*65):
+        if (len(line.split(' ')) != 2*37*65 + 63 + 1):
             continue
         line_data = map(float, line.split(' '))
         a = np.array(line_data[1:2*37*65+1])
