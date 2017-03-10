@@ -16,8 +16,8 @@ Y_scaling = True
 img_rows, img_cols = 37, 65
 img_channels = 2
  
-path = '../../data/'
-(X_train, Y_train), (X_test, Y_test) = load_data(path + '20161117/data-yzc.txt', 
+path = '../../../ML_Data/'
+(X_train, Y_train), (X_test, Y_test) = load_data(path + 'data_20161118_all.txt', 
 validation_split = 0.2, start = 1, end = 1024, shuffle = True)
 
 if (X_scaling):
